@@ -1,4 +1,4 @@
-FROM alpine:3.7 as base
+FROM hsorby/opencor-python:0.1.0 as base
 #
 #  USAGE:
 #     cd services/osparc-opencor
@@ -18,48 +18,6 @@ RUN apk add --no-cache \
       bash \
       jq
 
-# -------------------------- Build stage -------------------
-# Installs build/package management tools and third party dependencies
-#
-# + /build             WORKDIR
-#
-
-FROM base as build
-
-ENV SC_BUILD_TARGET build
-
-# ------------------------------------------------------------------------------------
-#TODO:
-# uncomment and adapt if build dependencies shall be installed
-#RUN apk add --no-cache gcc git
-
-# uncomment and adapt if python necessary
-#RUN $SC_PIP install --upgrade pip wheel setuptools
-# ------------------------------------------------------------------------------------
-
-WORKDIR /build
-# defines the output of the build
-RUN mkdir -p /build/bin
-# copy src code
-COPY  src/osparc-opencor src/osparc-opencor
-# ------------------------------------------------------------------------------------
-#TODO:
-# uncomment and adapt if build steps are necessary
-# RUN gcc ...
-# ------------------------------------------------------------------------------------
-
-# --------------------------Cache stage -------------------
-# CI in master buils & pushes this target to speed-up image build
-#
-#  + /build
-#    + services/osparc-opencor [${SC_USER_NAME}:${SC_USER_NAME}] WORKDIR
-#
-FROM build as cache
-
-ENV SC_BUILD_TARGET cache
-
-
-
 # --------------------------Production stage -------------------
 # Final cleanup up to reduce image size and startup setup
 # Runs as ${SC_USER_NAME} (non-root user)
@@ -74,7 +32,6 @@ FROM base as production
 ENV SC_BUILD_TARGET production
 ENV SC_BOOT_MODE production
 
-
 ENV INPUT_FOLDER="/input" \
     OUTPUT_FOLDER="/output" \
     LOG_FOLDER="/log"
@@ -82,22 +39,12 @@ ENV INPUT_FOLDER="/input" \
 
 WORKDIR /home/${SC_USER_NAME}
 
-# ------------------------------------------------------------------------------------
-#TODO:
-# uncomment and adapt to install runtime dependencies
-#RUN apk add --no-cache ffmpeg
-# ------------------------------------------------------------------------------------
 
-# copy binaries from cache
-RUN mkdir -p osparc-opencor &&\
-      chown ${SC_USER_NAME}:${SC_USER_NAME} osparc-opencor
-COPY --from=cache /build/bin osparc-opencor
-
-# copy docker bootup scripts
 COPY docker/*.sh docker/
 RUN chmod +x docker/*.sh &&\
       chown ${SC_USER_NAME}:${SC_USER_NAME} docker/*.sh
-# copy simcore service cli
+
+
 COPY service.cli/ service.cli/
 RUN chmod +x service.cli/* &&\
       chown ${SC_USER_NAME}:${SC_USER_NAME} service.cli/*
