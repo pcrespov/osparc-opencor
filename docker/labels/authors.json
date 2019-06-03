@@ -1,6 +1,11 @@
 {
     "authors": [
         {
+            "name": "Hugh Sorby",
+            "email": "hsorby",
+            "affiliation": "University of Auckland"
+        },
+        {
             "name": "Pedro Crespo",
             "email": "pcrespov",
             "affiliation": "ITIS Foundation"
