@@ -1,14 +1,11 @@
 {
     "inputs": {
-        "input_1": {
+        "stimulation_period": {
             "displayOrder": 1,
             "label": "Stimulation Period",
             "description": "Stimulation period in milliseconds as a decimal number",
             "type": "number",
-            "defaultValue": "1000.0",
-            "fileToKeyMap": {
-                "somefilename.ext":"input_1"
-            }
+            "defaultValue": "1000.0"
         }
     }
 }

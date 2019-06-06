@@ -1,12 +1,12 @@
 {
     "outputs": {        
-        "output_1": {
+        "membrane_potential": {
             "displayOrder": 1,
             "label": "Membrane Potential",
             "description": "Membrane potential 'v' at each time step",
-            "type": "file",
+            "type": "data:application/json",
             "fileToKeyMap": {
-                "membrain-potential.json":"output_1"
+                "membrain-potential.json":"membrane_potential"
             }
         }
         
