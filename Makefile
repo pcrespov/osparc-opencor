@@ -25,7 +25,7 @@ export VCS_STATUS_CLIENT:=$(if $(shell git status -s),'modified/untracked','clea
 export BUILD_DATE:=$(shell date -u +"%Y-%m-%dT%H:%M:%SZ")
 
 ifndef DOCKER_REGISTRY
-export DOCKER_REGISTRY=https://index.docker.io/v1
+export DOCKER_REGISTRY=itisfoundation
 endif
 
 

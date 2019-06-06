@@ -1,23 +1,38 @@
-version: '3.6'
 services:
   osparc-opencor:
-    image: ${DOCKER_REGISTRY}/simcore/services/comp/osparc-opencor:latest
-    command: run
     build:
       context: ./
       dockerfile: src/Dockerfile
-      target: production
       labels:
-        org.label-schema.schema-version: "1.0"
-        org.label-schema.build-date: "${BUILD_DATE}"
+        io.simcore.authors: '{"authors": [{"name": "Hugh Sorby", "email": "hsorby",
+          "affiliation": "University of Auckland"}, {"name": "Pedro Crespo", "email":
+          "pcrespov", "affiliation": "ITIS Foundation"}]}'
+        io.simcore.contact: '{"contact": "pcrespov"}'
+        io.simcore.description: '{"description": "OpenCOR service for osparc [Demo]"}'
+        io.simcore.inputs: '{"inputs": {"stimulation_period": {"displayOrder": 1,
+          "label": "Stimulation Period", "description": "Stimulation period in milliseconds
+          as a decimal number", "type": "number", "defaultValue": "1000.0"}}}'
+        io.simcore.key: '{"key": "simcore/services/comp/osparc-opencor"}'
+        io.simcore.name: '{"name": "osparc-opencor"}'
+        io.simcore.outputs: '{"outputs": {"membrane_potential": {"displayOrder": 1,
+          "label": "Membrane Potential", "description": "Membrane potential ''v''
+          at each time step", "type": "data:application/json", "fileToKeyMap": {"membrain-potential.json":
+          "membrane_potential"}}}}'
+        io.simcore.type: '{"type": "computational"}'
+        io.simcore.version: '{"version": "0.1.0"}'
+        org.label-schema.build-date: ${BUILD_DATE}
+        org.label-schema.schema-version: '1.0'
+        org.label-schema.vcs-ref: ${VCS_REF}
         org.label-schema.vcs-url: https://github.com/pcrespov/osparc-opencor.git
-        org.label-schema.vcs-ref: "${VCS_REF}"
+      target: production
+    command: run
     environment:
-      - INPUT_FOLDER=/input
-      - OUTPUT_FOLDER=/output
-      - LOG_FOLDER=/log
+    - INPUT_FOLDER=/input
+    - OUTPUT_FOLDER=/output
+    - LOG_FOLDER=/log
+    image: ${DOCKER_REGISTRY}/simcore/services/comp/osparc-opencor:latest
     volumes:
-      # some defaults to test the service
-      - ./validation/input:/input
-      - ./tmp/output:/output
-      - ./tmp/log:/log
+    - ./validation/input:/input
+    - ./tmp/output:/output
+    - ./tmp/log:/log
+version: '3.6'

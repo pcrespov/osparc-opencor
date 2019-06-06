@@ -1,22 +1,21 @@
 FROM hsorby/opencor-python:0.1.0 as base
-#
-#  USAGE:
-#     cd services/osparc-opencor
-#     docker build -f Dockerfile -t osparc-opencor:prod --target production ../../
-#     docker run osparc-opencor:prod
-#
+
 
 LABEL maintainer=pcrespov
 
 # simcore-user uid=8004(${SC_USER_NAME}) gid=8004(${SC_USER_NAME}) groups=8004(${SC_USER_NAME})
 ENV SC_USER_ID 8004
 ENV SC_USER_NAME scu
-RUN adduser -D -u ${SC_USER_ID} -s /bin/sh -h /home/${SC_USER_NAME} ${SC_USER_NAME}
 
-RUN apk add --no-cache \
-      su-exec \
-      bash \
-      jq
+
+RUN apt-get -qq update && apt-get install -y \
+      gosu \
+      jq \
+    && rm -rf /var/lib/apt/lists/*
+
+
+RUN addgroup --gid ${SC_USER_ID} ${SC_USER_NAME} &&\
+    adduser --uid ${SC_USER_ID} --ingroup ${SC_USER_NAME} -D --shell /bin/sh ${SC_USER_NAME}
 
 # --------------------------Production stage -------------------
 # Final cleanup up to reduce image size and startup setup
