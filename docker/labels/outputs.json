@@ -3,7 +3,7 @@
         "membrane_potential": {
             "displayOrder": 1,
             "label": "Membrane Potential",
-            "description": "Membrane potential 'v' at each time step",
+            "description": "Membrane potential (v) at each time step",
             "type": "data:application/json",
             "fileToKeyMap": {
                 "membrain-potential.json":"membrane_potential"

@@ -71,26 +71,6 @@ else
 fi
 
 
-
-
-# Appends docker group if socket is mounted
-DOCKER_MOUNT=/var/run/docker.sock
-
-if [[ -e $DOCKER_MOUNT && stat $DOCKER_MOUNT &> /dev/null && $? -eq 0 ]]
-then
-    GROUPID=$(stat -c %g $DOCKER_MOUNT)
-    
-    GROUPNAME=scdocker
-
-    addgroup -g $GROUPID $GROUPNAME &> /dev/null
-    if [[ $? -gt 0 ]]
-    then
-        # if group already exists in container, then reuse name
-        GROUPNAME=$(getent group ${GROUPID} | cut -d: -f1)
-    fi
-    addgroup $SC_USER_NAME $GROUPNAME
-fi
-
 echo "Starting $@ ..."
 echo "  $SC_USER_NAME rights    :`id $SC_USER_NAME`"
 echo "  local dir :`ls -al`"
@@ -98,4 +78,5 @@ echo "  input dir :`ls -al $INPUT_FOLDER`"
 echo "  output dir :`ls -al $OUTPUT_FOLDER`"
 echo "  log dir :`ls -al $LOG_FOLDER`"
 
-exec runuser -u $SC_USER_NAME "$@"
+#exec runuser -u $SC_USER_NAME "$@"
+exec gosu $SC_USER_NAME "$@"

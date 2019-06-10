@@ -1,64 +1,36 @@
 FROM hsorby/opencor-python:0.1.0 as base
 
-
 LABEL maintainer=pcrespov
 
-# simcore-user uid=8004(${SC_USER_NAME}) gid=8004(${SC_USER_NAME}) groups=8004(${SC_USER_NAME})
 ENV SC_USER_ID 8004
 ENV SC_USER_NAME scu
 
+RUN apt-get -qq update && \
+    apt-get install -y \
+      gosu    \
+      jq    &&\
+    rm -rf /var/lib/apt/lists/*
 
-RUN apt-get -qq update && apt-get install -y \
-      gosu \
-      jq \
-    && rm -rf /var/lib/apt/lists/*
-
-
-RUN addgroup --gid ${SC_USER_ID} ${SC_USER_NAME} &&\
-    adduser --uid ${SC_USER_ID} --ingroup ${SC_USER_NAME} -D --shell /bin/sh ${SC_USER_NAME}
+RUN useradd -ms /bin/sh -u ${SC_USER_ID} -U ${SC_USER_NAME}
 
 # --------------------------Production stage -------------------
-# Final cleanup up to reduce image size and startup setup
-# Runs as ${SC_USER_NAME} (non-root user)
-#
-#  + /home/${SC_USER_NAME}     $HOME = WORKDIR
-#    + osparc-opencor [${SC_USER_NAME}:${SC_USER_NAME}]
-#    + docker [${SC_USER_NAME}:${SC_USER_NAME}]
-#    + service.cli [${SC_USER_NAME}:${SC_USER_NAME}]
-#
-FROM base as production
+FROM base AS production
 
-ENV SC_BUILD_TARGET production
-ENV SC_BOOT_MODE production
-
-ENV INPUT_FOLDER="/input" \
-    OUTPUT_FOLDER="/output" \
-    LOG_FOLDER="/log"
-
+ENV INPUT_FOLDER "/input"
+ENV OUTPUT_FOLDER "/output"
+ENV LOG_FOLDER "/log"
+ENV PATH "/home/${SC_USER_NAME}/service.cli:${PATH}"
 
 WORKDIR /home/${SC_USER_NAME}
-
 
 COPY docker/*.sh docker/
 RUN chmod +x docker/*.sh &&\
       chown ${SC_USER_NAME}:${SC_USER_NAME} docker/*.sh
 
-
 COPY service.cli/ service.cli/
 RUN chmod +x service.cli/* &&\
       chown ${SC_USER_NAME}:${SC_USER_NAME} service.cli/*
-# necessary to be able to call run directly without sh in front
-ENV PATH="/home/${SC_USER_NAME}/service.cli:${PATH}"
 
-# ------------------------------------------------------------------------------------
-#TODO:
-# uncomment and provide a healtchecker if possible
-# HEALTHCHECK --interval=30s \
-#             --timeout=120s \
-#             --start-period=30s \
-#             --retries=3 \
-#             CMD ["healthchecker app"]
-# ------------------------------------------------------------------------------------
 
 ENTRYPOINT [ "/bin/sh", "docker/entrypoint.sh" ]
 CMD ["/bin/sh", "docker/boot.sh"]
