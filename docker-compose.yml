@@ -19,7 +19,7 @@ services:
           at each time step", "type": "data:application/json", "fileToKeyMap": {"membrain-potential.json":
           "membrane_potential_json"}}}}'
         io.simcore.type: '{"type": "computational"}'
-        io.simcore.version: '{"version": "0.1.0"}'
+        io.simcore.version: '{"version": "0.2.1"}'
         org.label-schema.build-date: ${BUILD_DATE}
         org.label-schema.schema-version: '1.0'
         org.label-schema.vcs-ref: ${VCS_REF}
