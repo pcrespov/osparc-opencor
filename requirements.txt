@@ -7,4 +7,4 @@ pyyaml
 
 # tooling
 pylint
-bumpversion
+bump2version
