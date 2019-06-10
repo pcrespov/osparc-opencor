@@ -26,15 +26,25 @@ The run will use the validation data as input by default. Results of the run wil
 (.venv)$ make integration-test
 ```
 
-## Versioning
+## Dev notes
 
-Do the following to change the version of the dockerized service
+Implements [osparc-simcore #764](https://github.com/ITISFoundation/osparc-simcore/issues/764)
 
-```console
-# activate python virtual env
-make .venv
-source .venv/bin/activate
+Had to adapt cc due to some differencies wrt to the service we have been integrating so far
 
-(.venv)$ pip install bumpversion
-(.venv)$ bumpversion ARG
-```
+- no source code but instead (Dockerfile [repo](https://github.com/hsorby/docker_opencor_run_model))
+- ubuntu instead of alpine
+- container prints results to stdout instead of a file
+
+### Limitations
+
+1. version syncs to base image? Our layer has to be minimal!
+2. cannot capture errors from opencor [entrypoint.sh](https://github.com/hsorby/docker_opencor_run_model/blob/master/entrypoint.sh). [Reported](https://github.com/hsorby/docker_opencor_run_model/issues/3) to repo.
+3. 
+
+
+### TODO
+
+- [ ] add travis CI
+- [ ] define communcation
+- [ ] should validate failures, i.e. how service reacts to wrong inputs (e.g. return codes, etc). In this case, the entrypoit does not react well to failures
