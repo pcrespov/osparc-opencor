@@ -1,4 +1,4 @@
-FROM hsorby/opencor-python:0.1.0 as base
+FROM hsorby/opencor-python:0.2.1 as base
 
 LABEL maintainer=pcrespov
 
