@@ -14,10 +14,10 @@ services:
           as a decimal number", "type": "number", "defaultValue": "1000.0"}}}'
         io.simcore.key: '{"key": "simcore/services/comp/osparc-opencor"}'
         io.simcore.name: '{"name": "osparc-opencor"}'
-        io.simcore.outputs: '{"outputs": {"membrane_potential": {"displayOrder": 1,
-          "label": "Membrane Potential", "description": "Membrane potential (v) at
-          each time step", "type": "data:application/json", "fileToKeyMap": {"membrain-potential.json":
-          "membrane_potential"}}}}'
+        io.simcore.outputs: '{"outputs": {"membrane_potential_json": {"displayOrder":
+          1, "label": "Membrane Potential", "description": "Membrane potential (v)
+          at each time step", "type": "data:application/json", "fileToKeyMap": {"membrain-potential.json":
+          "membrane_potential_json"}}}}'
         io.simcore.type: '{"type": "computational"}'
         io.simcore.version: '{"version": "0.1.0"}'
         org.label-schema.build-date: ${BUILD_DATE}

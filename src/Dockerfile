@@ -23,14 +23,11 @@ ENV PATH "/home/${SC_USER_NAME}/service.cli:${PATH}"
 
 WORKDIR /home/${SC_USER_NAME}
 
-COPY docker/*.sh docker/
-RUN chmod +x docker/*.sh &&\
-      chown ${SC_USER_NAME}:${SC_USER_NAME} docker/*.sh
+COPY --chown=scu:scu docker/*.sh docker/
+COPY --chown=scu:scu service.cli/ service.cli/
 
-COPY service.cli/ service.cli/
-RUN chmod +x service.cli/* &&\
-      chown ${SC_USER_NAME}:${SC_USER_NAME} service.cli/*
+RUN chmod +x docker/*.sh && chmod +x service.cli/*
 
 
-ENTRYPOINT [ "/bin/sh", "docker/entrypoint.sh" ]
-CMD ["/bin/sh", "docker/boot.sh"]
+ENTRYPOINT [ "/bin/bash", "docker/entrypoint.sh" ]
+CMD ["/bin/bash", "docker/boot.sh"]

@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/bin/bash
+
 set -e
 # This entrypoint script:
 #
@@ -40,34 +41,36 @@ fi
 USERID=$(stat -c %u $INPUT_FOLDER)
 GROUPID=$(stat -c %g $INPUT_FOLDER)
 GROUPNAME=$(getent group ${GROUPID} | cut -d: -f1)
+
 if [[ $USERID -eq 0 ]]
 then
     echo "Warning: Folder mounted owned by root user... adding $SC_USER_NAME to root..."
-    addgroup $SC_USER_NAME root
+    usermod -a -G $SC_USER_NAME root
 else
     echo "Folder mounted owned by user $USERID:$GROUPID-'$GROUPNAME'..."
     # take host's credentials in $SC_USER_NAME
     if [[ -z "$GROUPNAME" ]]
     then
         echo "Creating new group my$SC_USER_NAME"
-        GROUPNAME=my$SC_USER_NAME
-        addgroup -g $GROUPID $GROUPNAME
+        GROUPNAME=HostGroup
+        groupadd -g $GROUPID $GROUPNAME
+
         # change group property of files already around
-        find / -group $SC_USER_ID -exec chgrp -h $GROUPNAME {} \;
+        find /home -group $SC_USER_ID -exec chgrp -h $GROUPNAME {} \;
     else
         echo "adding $SC_USER_NAME to group $GROUPNAME..."
-        addgroup $SC_USER_NAME $GROUPNAME
+        usermod -a -G $GROUPNAME $SC_USER_NAME
     fi
 
     echo "changing $SC_USER_NAME $SC_USER_ID:$SC_USER_ID to $USERID:$GROUPID"
     deluser $SC_USER_NAME &> /dev/null
     if [[ "$SC_USER_NAME" == "$GROUPNAME" ]]
     then
-        addgroup -g $GROUPID $GROUPNAME
+        groupadd -g $GROUPID $GROUPNAME
     fi
-    adduser -u $USERID -G $GROUPNAME -D -s /bin/sh $SC_USER_NAME
+    useradd -ms /bin/sh -u $USERID -g $GROUPNAME  $SC_USER_NAME
     # change user property of files already around
-    find / -user $SC_USER_ID -exec chown -h $SC_USER_NAME {} \;
+    find /home -user $SC_USER_ID -exec chown -h $SC_USER_NAME {} \;
 fi
 
 

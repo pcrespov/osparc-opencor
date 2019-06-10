@@ -11,7 +11,8 @@ set -e
 echo "Starting osparc-opencore ..." >> $LOG_FILE
 
 cd /home/opencor
-/usr/local/bin/entrypoint.sh $STIMULATION_PERIOD >> $OUTPUT_FOLDER/membrain-potential.json
+
+/usr/local/bin/entrypoint.sh $STIMULATION_PERIOD > $OUTPUT_FOLDER/membrain-potential.json
 
 echo "Finished osparc-opencore" >> $LOG_FILE
 
