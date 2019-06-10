@@ -48,3 +48,4 @@ Had to adapt cc due to some differencies wrt to the service we have been integra
 - [ ] add travis CI
 - [ ] define communcation
 - [ ] should validate failures, i.e. how service reacts to wrong inputs (e.g. return codes, etc). In this case, the entrypoit does not react well to failures
+- [ ] review workflow with @sanderegg
