@@ -1,5 +1,3 @@
-# author: Pedro Crespo
-
 OS_VERSION := $(shell uname -a)
 ifneq (,$(findstring Microsoft,$(OS_VERSION)))
 $(info    detected WSL)
@@ -25,7 +23,7 @@ export VCS_STATUS_CLIENT:=$(if $(shell git status -s),'modified/untracked','clea
 export BUILD_DATE:=$(shell date -u +"%Y-%m-%dT%H:%M:%SZ")
 
 ifndef DOCKER_REGISTRY
-export DOCKER_REGISTRY=https://index.docker.io/v1
+export DOCKER_REGISTRY=itisfoundation
 endif
 
 
@@ -45,7 +43,6 @@ ifeq ($(shell which ${SED}),)
 endif
 
 
-## ------------------------------------------------------------------------------------------------------
 .PHONY: all
 all: help info
 ifdef tools
@@ -62,14 +59,12 @@ build: pull update_compose_labels update_run_script
 # target: up, down: – Starts/Stops services.
 up: .env down
 	@mkdir -p tmp/output
-	mkdir -p tmp/log
-	${DOCKER_COMPOSE} -f docker-compose.yml up
+	@mkdir -p tmp/log
+	@${DOCKER_COMPOSE} -f docker-compose.yml up
 
 down:
 	@${DOCKER_COMPOSE} -f docker-compose.yml down
 
-## -------------------------------
-# Development/Debugging.
 .PHONY: up-devel
 # target: up-devel: – Starts service as root and with sources mounted in /home/scu/src for debugging.
 up-devel: .env down
@@ -77,8 +72,6 @@ up-devel: .env down
 	mkdir -p tmp/log
 	${DOCKER_COMPOSE} -f docker-compose.yml -f docker-compose.devel.yml run osparc-opencor
 
-## -------------------------------
-# Testing.
 
 .PHONY: unit-test integration-test
 # target: unit-test – Runs unit tests [w/ fail fast]
@@ -135,7 +128,7 @@ pull:
 	${DOCKER} pull \
 		${DOCKER_REGISTRY}/simcore/services/comp/osparc-opencor:latest || true;
 
-# basic checks -------------------------------------
+
 .env: .env-devel
 	# first check if file exists, copies it
 	@if [ ! -f $@ ]	; then \
@@ -167,17 +160,13 @@ info:
 	@echo '+ DOCKER_REGISTRY      : ${DOCKER_REGISTRY}'
 
 
-## -------------------------------
-# Virtual Environments
-.venv:
+.venv: .env
 # target: .venv – Creates a python virtual environment with dev tools (pip, pylint, ...)
-	python3 -m venv .venv
-	.venv/bin/pip3 install --upgrade pip wheel setuptools
-	.venv/bin/pip3 install pylint autopep8 virtualenv
+	@python3 -m venv .venv
+	@.venv/bin/pip3 install --upgrade pip wheel setuptools
+	@.venv/bin/pip3 install -r requirements.txt
 	@echo "To activate the venv, execute 'source .venv/bin/activate' or '.venv/bin/activate.bat' (WIN)"
 
-## -------------------------------
-# Auxiliary targets.
 
 .PHONY: clean
 # target: clean – Cleans all unversioned files in project

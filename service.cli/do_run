@@ -1,0 +1,9 @@
+#!/bin/bash
+#---------------------------------------------------------------
+# AUTO-GENERATED CODE, do not modify this will be overwritten!!!
+#---------------------------------------------------------------
+set -e
+_json_input=$INPUT_FOLDER/input.json
+export STIMULATION_PERIOD=$(cat $_json_input | jq '.stimulation_period')
+export LOG_FILE=$LOG_FOLDER/log.dat
+bash execute

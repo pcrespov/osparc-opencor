@@ -1,0 +1,10 @@
+# testing
+docker
+jsonschema
+pytest
+pyyaml
+
+
+# tooling
+pylint
+bump2version

@@ -1,118 +1,33 @@
-FROM alpine:3.7 as base
-#
-#  USAGE:
-#     cd services/osparc-opencor
-#     docker build -f Dockerfile -t osparc-opencor:prod --target production ../../
-#     docker run osparc-opencor:prod
-#
+FROM hsorby/opencor-python:0.2.1 as base
 
 LABEL maintainer=pcrespov
 
-# simcore-user uid=8004(${SC_USER_NAME}) gid=8004(${SC_USER_NAME}) groups=8004(${SC_USER_NAME})
 ENV SC_USER_ID 8004
 ENV SC_USER_NAME scu
-RUN adduser -D -u ${SC_USER_ID} -s /bin/sh -h /home/${SC_USER_NAME} ${SC_USER_NAME}
 
-RUN apk add --no-cache \
-      su-exec \
-      bash \
-      jq
+RUN apt-get -qq update && \
+    apt-get install -y \
+      gosu    \
+      jq    &&\
+    rm -rf /var/lib/apt/lists/*
 
-# -------------------------- Build stage -------------------
-# Installs build/package management tools and third party dependencies
-#
-# + /build             WORKDIR
-#
-
-FROM base as build
-
-ENV SC_BUILD_TARGET build
-
-# ------------------------------------------------------------------------------------
-#TODO:
-# uncomment and adapt if build dependencies shall be installed
-#RUN apk add --no-cache gcc git
-
-# uncomment and adapt if python necessary
-#RUN $SC_PIP install --upgrade pip wheel setuptools
-# ------------------------------------------------------------------------------------
-
-WORKDIR /build
-# defines the output of the build
-RUN mkdir -p /build/bin
-# copy src code
-COPY  src/osparc-opencor src/osparc-opencor
-# ------------------------------------------------------------------------------------
-#TODO:
-# uncomment and adapt if build steps are necessary
-# RUN gcc ...
-# ------------------------------------------------------------------------------------
-
-# --------------------------Cache stage -------------------
-# CI in master buils & pushes this target to speed-up image build
-#
-#  + /build
-#    + services/osparc-opencor [${SC_USER_NAME}:${SC_USER_NAME}] WORKDIR
-#
-FROM build as cache
-
-ENV SC_BUILD_TARGET cache
-
-
+RUN useradd -ms /bin/sh -u ${SC_USER_ID} -U ${SC_USER_NAME}
 
 # --------------------------Production stage -------------------
-# Final cleanup up to reduce image size and startup setup
-# Runs as ${SC_USER_NAME} (non-root user)
-#
-#  + /home/${SC_USER_NAME}     $HOME = WORKDIR
-#    + osparc-opencor [${SC_USER_NAME}:${SC_USER_NAME}]
-#    + docker [${SC_USER_NAME}:${SC_USER_NAME}]
-#    + service.cli [${SC_USER_NAME}:${SC_USER_NAME}]
-#
-FROM base as production
+FROM base AS production
 
-ENV SC_BUILD_TARGET production
-ENV SC_BOOT_MODE production
-
-
-ENV INPUT_FOLDER="/input" \
-    OUTPUT_FOLDER="/output" \
-    LOG_FOLDER="/log"
-
+ENV INPUT_FOLDER "/input"
+ENV OUTPUT_FOLDER "/output"
+ENV LOG_FOLDER "/log"
+ENV PATH "/home/${SC_USER_NAME}/service.cli:${PATH}"
 
 WORKDIR /home/${SC_USER_NAME}
 
-# ------------------------------------------------------------------------------------
-#TODO:
-# uncomment and adapt to install runtime dependencies
-#RUN apk add --no-cache ffmpeg
-# ------------------------------------------------------------------------------------
+COPY --chown=scu:scu docker/*.sh docker/
+COPY --chown=scu:scu service.cli/ service.cli/
 
-# copy binaries from cache
-RUN mkdir -p osparc-opencor &&\
-      chown ${SC_USER_NAME}:${SC_USER_NAME} osparc-opencor
-COPY --from=cache /build/bin osparc-opencor
+RUN chmod +x docker/*.sh && chmod +x service.cli/*
 
-# copy docker bootup scripts
-COPY docker/*.sh docker/
-RUN chmod +x docker/*.sh &&\
-      chown ${SC_USER_NAME}:${SC_USER_NAME} docker/*.sh
-# copy simcore service cli
-COPY service.cli/ service.cli/
-RUN chmod +x service.cli/* &&\
-      chown ${SC_USER_NAME}:${SC_USER_NAME} service.cli/*
-# necessary to be able to call run directly without sh in front
-ENV PATH="/home/${SC_USER_NAME}/service.cli:${PATH}"
 
-# ------------------------------------------------------------------------------------
-#TODO:
-# uncomment and provide a healtchecker if possible
-# HEALTHCHECK --interval=30s \
-#             --timeout=120s \
-#             --start-period=30s \
-#             --retries=3 \
-#             CMD ["healthchecker app"]
-# ------------------------------------------------------------------------------------
-
-ENTRYPOINT [ "/bin/sh", "docker/entrypoint.sh" ]
-CMD ["/bin/sh", "docker/boot.sh"]
+ENTRYPOINT [ "/bin/bash", "docker/entrypoint.sh" ]
+CMD ["/bin/bash", "docker/boot.sh"]

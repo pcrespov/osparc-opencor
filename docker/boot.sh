@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 set -e
 
@@ -28,4 +28,4 @@ else
   echo "running in release mode..."
 fi
 
-/bin/sh
+/bin/bash

@@ -1,45 +1,51 @@
 # osparc-opencor
 
-OpenCOR service for osparc
+Basic demo of a OpenCOR service for osparc
 
-## Structure
-
-- osparc-opencor/
-- osparc-opencor/src
-- osparc-opencor/tests
-- osparc-opencor/validation
 
 ## Usage
 
-Default usage will build the service inside a docker container and then run the service using the validation data as input by default.
-Results will be stored in osparc-opencor/tmp/output and logs in osparc-opencor/tmp/log.
-
+**activate python virtual env**
 ```console
-# activate python virtual env
 make .venv
 source .venv/bin/activate
+```
 
-# to build the project
+**to build the project and run the project with the validation data as input**
+```console
 (.venv)$ make build
-# to run the project with the validation data as input
 (.venv)$ make up
 
+```
+The run will use the validation data as input by default. Results of the run will be stored in ``osparc-opencor/tmp/output`` and logs in ``osparc-opencor/tmp/log``
 
-# to run the test suites
+**to run the test suites**
+```console
 (.venv)$ pip install -r tests/requirements.txt
 (.venv)$ make unit-test
 (.venv)$ make integration-test
 ```
 
-## Versioning
+## Dev notes
 
-Do the following to change the version of the dockerized service
+Implements [osparc-simcore #764](https://github.com/ITISFoundation/osparc-simcore/issues/764)
 
-```console
-# activate python virtual env
-make .venv
-source .venv/bin/activate
+Had to adapt cc due to some differencies wrt to the service we have been integrating so far
 
-(.venv)$ pip install bumpversion
-(.venv)$ bumpversion ARG
-```
+- no source code but instead (Dockerfile [repo](https://github.com/hsorby/docker_opencor_run_model))
+- ubuntu instead of alpine
+- container prints results to stdout instead of a file
+
+### Limitations
+
+1. version syncs to base image? Our layer has to be minimal!
+2. cannot capture errors from opencor [entrypoint.sh](https://github.com/hsorby/docker_opencor_run_model/blob/master/entrypoint.sh). [Reported](https://github.com/hsorby/docker_opencor_run_model/issues/3) to repo.
+3. 
+
+
+### TODO
+
+- [ ] add travis CI
+- [ ] define communcation
+- [ ] should validate failures, i.e. how service reacts to wrong inputs (e.g. return codes, etc). In this case, the entrypoit does not react well to failures
+- [ ] review workflow with @sanderegg

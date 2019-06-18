@@ -1,4 +1,3 @@
-#!/bin/sh
-# Alpine linux default shell is sh, this is a trick to call a bash script
+#!/bin/bash
 set -e
 /bin/bash do_run
