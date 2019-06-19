@@ -5,25 +5,28 @@ Basic demo of a OpenCOR service for osparc
 
 ## Usage
 
-**activate python virtual env**
+Typical workflow
+
 ```console
-make .venv
-source .venv/bin/activate
+make build
+make test
 ```
 
-**to build the project and run the project with the validation data as input**
+More details
 ```console
-(.venv)$ make build
-(.venv)$ make up
+$ make help
+Make targets in osparc-simcore:
 
-```
-The run will use the validation data as input by default. Results of the run will be stored in ``osparc-opencor/tmp/output`` and logs in ``osparc-opencor/tmp/log``
-
-**to run the test suites**
-```console
-(.venv)$ pip install -r tests/requirements.txt
-(.venv)$ make unit-test
-(.venv)$ make integration-test
+build: – Builds all service images.
+up, down: – Starts/Stops services.
+unit-test – Runs unit tests [w/ fail fast]
+integration-test – Runs integration tests [w/ fail fast] (needs built container)
+test – Run all tests
+push-release, push: – Pushes services to the registry if service not available in registry. push overwrites.
+info – Displays some parameters of makefile environments
+.venv – Creates a python virtual environment with dev tools (pip, pylint, ...)
+clean – Cleans all unversioned files in project
+help – Display all callable targets
 ```
 
 ## Dev notes
