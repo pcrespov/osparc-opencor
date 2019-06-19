@@ -39,8 +39,10 @@ Had to adapt cc due to some differencies wrt to the service we have been integra
 ### Limitations
 
 1. version syncs to base image? Our layer has to be minimal!
+    - might need a version for the adapter itself (similar to jsonschema)
 2. cannot capture errors from opencor [entrypoint.sh](https://github.com/hsorby/docker_opencor_run_model/blob/master/entrypoint.sh). [Reported](https://github.com/hsorby/docker_opencor_run_model/issues/3) to repo.
-3. 
+3. metadata should be more explicit -> metadata folder at level 0
+4. schema
 
 
 ### TODO
