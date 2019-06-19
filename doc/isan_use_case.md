@@ -21,7 +21,7 @@ After some interaction of the user with the flat-map in the MAP-Core portal:
    4. The workflow on oSPARC results in some relevant simulation results being presented to the user.
    5. If the user still has the Data Portal open in the same place then the simulation results could also show up on the portal flatmap viewer, i.e., the action potential is plotted.
 2. The computational results are returned and a cardiac myocyte action potential is displayed, for that sympathetic drive input setting, on the MAP-Core portal.
-3. The user chooses another sympathetic drive input setting to repeat the procedure.
+3. The user chooses another sympathetic drive input setting to repeat the procedure. __What happens then? does it re-use the tabs or new ones?__
 
 
 ## Proposal for Platforms interaction
@@ -35,10 +35,10 @@ We propose a **Request/Redirect/Notify** interaction pattern between MAP-core an
       2. Set a webhook to notify completion of execution
    3. For instance, the MAP-core web can show a link to open simcore
     ```bash
-    <a href="https://osparc.io/study/template-123456123456?simulation_period_secs=1000&webhook_done=https://opencor.org/notifications?simulation_id=123456">Run in simcore.io</a>
+    <a href="https://osparc.io/study/template-123456123456?simulation_period_secs=1000&webhook_done=https://opencor.org/notifications?simulation_id=123456">Run in osparc.io</a>
     ```
-   4. When user presses this link a new tab opens with [simcore.io]
-2. simcore creates a study from the template and applies replaces the parametrization with the provided values. Then it **redirects** to simcore.io and  displays the selected study open and ready to run in the simcore front-end. At this point, the user can run the study and visualize the results interactively.
+   4. When user presses this link a new tab opens with [osparc.io]
+2. simcore creates a study from the template and applies the parametrization using the provided values. Then it **redirects** to osparc.io and  displays the selected study open and ready to run in the simcore front-end. At this point, the user can run the study and visualize the results interactively.
 3. If a webhook url to a callback service is provided in the initial request, simcore will **notify** it when the osparc-opencor service completed execution. The notification request transmits also information of the execution as the exit code and a pre-signed download link for the results. An example of this notification triggered by simcore to the webhook set above would be
     ```bash
     curl --request POST \
@@ -46,7 +46,7 @@ We propose a **Request/Redirect/Notify** interaction pattern between MAP-core an
     --header 'Content-Type: application/json' \
     --data '{\n"dowload_link": "https://osparc.io/outbox/123456789/membrain-potential.json"\n"status_code": 0\n}'
     ```
-    Using this mechanism, allows MAP-Core then retrieve the results and further process/visualize them in the MAP-Core portal. 
+    Using this mechanism, allows MAP-Core to retrieve the results and further process/visualize them in the MAP-Core portal. 
 
 
 ## ISAN 2019 opencor's parametrized template study 
