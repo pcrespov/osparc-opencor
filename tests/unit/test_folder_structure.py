@@ -19,7 +19,6 @@ def test_docker_dir(docker_dir: Path):
     assert Path(docker_dir / "boot.sh").exists()
 
 def test_tools_dir(tools_dir: Path):
-    assert Path(tools_dir / "requirements.txt").exists()
     assert Path(tools_dir / "update_compose_labels.py").exists()
     assert Path(tools_dir / "run_creator.py").exists()
 
@@ -33,3 +32,4 @@ def test_slug_dir(project_slug_dir: Path):
     assert Path(project_slug_dir / "Makefile").exists()
     assert Path(project_slug_dir / "README.md").exists()
     assert Path(project_slug_dir / "VERSION").exists()
+    assert Path(project_slug_dir / "requirements.txt").exists()
