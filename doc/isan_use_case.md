@@ -59,9 +59,20 @@ A [parametrized template study](doc/isan_use_case.md) is published for the ISAN2
   - Study parameters
     - ``webhook_done``: URL webhook to notify execution completed. It is responsibility of the caller to pass the correct endpoint. 
 
+#### ospacr-opencor service in catalog
+![image.png](https://images.zenhubusercontent.com/5caef818ecad11531cc41364/5410bb94-38e0-4578-a0e9-1af5cd032ca4)
+
+#### pipeline for ISAN2019 parametrized template study
+![image.png](https://images.zenhubusercontent.com/5caef818ecad11531cc41364/e650de33-7b09-4dc0-8260-ede83858463d)
+
+#### Detail of a parameterized input 
+TEMPLATE studies can parametrize some of the settings using ``{{ .. }}`` expression (as in [jinja2](http://jinja.pocoo.org/docs/2.10/templates/#expressions) )
+
+![image.png](https://images.zenhubusercontent.com/5caef818ecad11531cc41364/409b43bd-0e1e-4cc2-8740-a125c85d013e)
+
 ---
 
-### Glossary
+## Glossary
 
 #### osparc
 The SIM-Core o2S2PARC platform 
