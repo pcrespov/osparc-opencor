@@ -47,8 +47,6 @@ Had to adapt cc due to some differencies wrt to the service we have been integra
 2. cannot capture errors from opencor [entrypoint.sh](https://github.com/hsorby/docker_opencor_run_model/blob/master/entrypoint.sh). [Reported](https://github.com/hsorby/docker_opencor_run_model/issues/3) to repo.
 3. metadata should be more explicit -> metadata folder at level 0
 4. schema
-5. 
-
 
 ### Upgrading to new verfsion of [hsorby/opencor-python]
 
