@@ -39,6 +39,7 @@ Had to adapt cc due to some differencies wrt to the service we have been integra
 - ubuntu instead of alpine
 - container prints results to stdout instead of a file
 
+
 ### Limitations
 
 1. version syncs to base image? Our layer has to be minimal!
@@ -47,10 +48,24 @@ Had to adapt cc due to some differencies wrt to the service we have been integra
 3. metadata should be more explicit -> metadata folder at level 0
 4. schema
 
+### Upgrading to new verfsion of [hsorby/opencor-python]
+
+```console
+(.venv)$ bump2version patch
+$ make build
+$ make test
+
+## if ok ...
+$ git commit -a -m "Upgraded hsorby/opencor-python:0.2.2
+```
+
 
 ### TODO
 
 - [ ] add travis CI
-- [ ] define communcation
 - [ ] should validate failures, i.e. how service reacts to wrong inputs (e.g. return codes, etc). In this case, the entrypoit does not react well to failures
 - [ ] review workflow with @sanderegg
+
+
+
+[hsorby/opencor-python]:https://hub.docker.com/r/hsorby/opencor-python/tags
