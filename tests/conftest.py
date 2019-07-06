@@ -15,6 +15,13 @@ def here() -> Path:
     return Path(sys.argv[0] if __name__ == "__main__" else __file__).resolve().parent
 
 @pytest.fixture(scope='session')
+def repo_dir(here: Path) -> Path:
+    _repo_dir = here.parent
+    assert _repo_dir.exists()
+    assert _repo_dir.glob(".git")
+    return _repo_dir
+
+@pytest.fixture(scope='session')
 def tests_dir(here: Path) -> Path:
     tests_dir = here
     assert tests_dir.exists()
