@@ -7,7 +7,6 @@ import re
 import docker
 import pytest
 
-
 @pytest.fixture
 def base_image(repo_dir):
     with open(repo_dir / "src/Dockerfile") as fh:
@@ -25,6 +24,8 @@ def golden_reference(repo_dir):
         output = json.load(fh)
     
     return _input, output
+
+
 
 
 def test_base_runs(base_image):

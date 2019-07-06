@@ -3,6 +3,17 @@
 Basic demo of a OpenCOR service for osparc
 
 
+
+<!-- TOC_BEGIN -->
+<!-- Automaticaly produced by scripts/auto-doc/create-toc.py on 20190706 -->
+## Available services [1]
+|           name            |             description             |      type       |  latest version  |                  identifier                  |
+|---------------------------|-------------------------------------|-----------------|------------------|----------------------------------------------|
+|  [osparc-opencor](./src)  |  OpenCOR service for osparc [Demo]  |  computational  |  0.2.2           |  simcore/services/comp/osparc-opencor:0.2.2  |
+<!-- TOC_END -->
+
+
+
 ## Usage
 
 Typical workflow
@@ -69,3 +80,4 @@ $ git commit -a -m "Upgraded hsorby/opencor-python:0.2.2
 
 
 [hsorby/opencor-python]:https://hub.docker.com/r/hsorby/opencor-python/tags
+
