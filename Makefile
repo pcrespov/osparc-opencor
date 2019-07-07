@@ -27,64 +27,42 @@ export DOCKER_REGISTRY=itisfoundation
 endif
 
 
+.PHONY: help
+help: ## This nice help (thanks to https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html)
+	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
-## Tools ------------------------------------------------------------------------------------------------------
-#
-tools =
-
-ifeq ($(shell uname -s),Darwin)
-	SED = gsed
-else
-	SED = sed
-endif
-
-ifeq ($(shell which ${SED}),)
-	tools += $(SED)
-endif
-
-
-.PHONY: all
-all: help info
-ifdef tools
-	$(error "Can't find tools:${tools}")
-endif
+.DEFAULT_GOAL := help
 
 
 .PHONY: build
-# target: build: – Builds all service images.
-build: pull update_compose_labels update_run_script
+build: pull update_compose_labels update_run_script ## Builds all service images.
 	@${DOCKER_COMPOSE} -f docker-compose.yml build --parallel
 	@echo Built image ${DOCKER_REGISTRY}/simcore/services/comp/osparc-opencor:latest
 
 .PHONY: up down
-# target: up, down: – Starts/Stops services.
-up: .env down
+up: .env down ## starts services.
 	@mkdir -p tmp/output
 	@mkdir -p tmp/log
 	@${DOCKER_COMPOSE} -f docker-compose.yml up
 
-down:
+down:  ## stops services.
 	@${DOCKER_COMPOSE} -f docker-compose.yml down
 
 
 .PHONY: unit-test integration-test test
 
-# target: unit-test – Runs unit tests [w/ fail fast]
-unit-test: .venv
+unit-test: .venv # runs unit tests [w/ fail fast]
 	@.venv/bin/pytest -x -v --junitxml=pytest_unittest.xml --log-level=warning tests/unit
 
-# target: integration-test – Runs integration tests [w/ fail fast] (needs built container)
-integration-test: .venv
+integration-test: build .venv  ## runs integration tests [w/ fail fast] (needs built container)
 	@.venv/bin/pytest -x -v --junitxml=pytest_integrationtest.xml --log-level=warning tests/integration
 
-# target: test – Run all tests
-test: unit-test integration-test
+test: unit-test integration-test ## run all tests
 
 .PHONY: push-release push
-# target: push-release, push: – Pushes services to the registry if service not available in registry. push overwrites.
-push-release: check-release check-pull push
+push-release: check-release check-pull push # pushes services to the registry if service not available in registry. push overwrites.
 
-push:
+push: 
 	# push both latest and :$$SERVICE_VERSION tags
 	${DOCKER} login ${DOCKER_REGISTRY};\
 	SERVICE_VERSION=$$(cat VERSION);\
@@ -96,8 +74,7 @@ push:
 	${DOCKER} push \
 		${DOCKER_REGISTRY}/simcore/services/comp/osparc-opencor:latest;
 
-pull:
-	# pull latest service version if available
+pull: ## pull latest service version if available
 	${DOCKER} pull \
 		${DOCKER_REGISTRY}/simcore/services/comp/osparc-opencor:latest || true;
 
@@ -125,8 +102,7 @@ update_run_script: .venv
 		--runscript service.cli/do_run
 
 .PHONY: info
-# target: info – Displays some parameters of makefile environments
-info:
+info: ## Displays some parameters of makefile environments
 	@echo '+ VCS_* '
 	@echo '  - ULR                : ${VCS_URL}'
 	@echo '  - REF                : ${VCS_REF}'
@@ -136,8 +112,7 @@ info:
 	@echo '+ DOCKER_REGISTRY      : ${DOCKER_REGISTRY}'
 
 
-.venv: .env
-# target: .venv – Creates a python virtual environment with dev tools (pip, pylint, ...)
+.venv: .env ## Creates a python virtual environment with dev tools (pip, pylint, ...)
 	@python3 -m venv .venv
 	@.venv/bin/pip3 install --upgrade pip wheel setuptools
 	@.venv/bin/pip3 install -r requirements.txt
@@ -145,16 +120,10 @@ info:
 
 
 .PHONY: clean
-# target: clean – Cleans all unversioned files in project
-clean:
+clean:  ## Cleans all unversioned files in project
 	@git clean -dxf -e .vscode/
 
 
-.PHONY: help
-# target: help – Display all callable targets
-help:
-	@echo "Make targets in osparc-simcore:"
-	@echo
-	@egrep "^\s*#\s*target\s*:\s*" [Mm]akefile \
-	| $(SED) -r "s/^\s*#\s*target\s*:\s*//g"
-	@echo
+.PHONY: toc
+toc: .venv ## Updates README.txt with a ToC of all services
+	@.venv/bin/python ${CURDIR}/scripts/auto-doc/create-toc.py
