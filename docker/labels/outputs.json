@@ -8,7 +8,15 @@
             "fileToKeyMap": {
                 "membrain-potential.json":"membrane_potential_json"
             }
+        },
+        "membrane_potential_csv": {
+            "displayOrder": 2,
+            "label": "Membrane Potential (CSV-format)",
+            "description": "Membrane potential (v) at each time step",
+            "type": "data:application/csv",
+            "fileToKeyMap": {
+                "membrain-potential.csv":"membrane_potential_csv"
+            }
         }
-        
     }
 }

@@ -115,7 +115,7 @@ def test_run_container(validation_folders: Dict, host_folders: Dict, docker_cont
         # test if the files that should be there are actually there and correct
         list_of_files = [x.name for x in validation_folders[folder].iterdir() if not ".gitkeep" in x.name]
         for file_name in list_of_files:
-            assert Path(host_folders[folder] / file_name).exists(), "missing files in {}".format(host_folders[folder])
+            assert Path(host_folders[folder] / file_name).exists(), "missing file '{}' in {}".format(file_name, host_folders[folder])
         match, mismatch, errors = filecmp.cmpfiles(host_folders[folder], validation_folders[folder], list_of_files, shallow=False)
         # assert not mismatch, "wrong/incorrect files in {}".format(host_folders[folder])
         assert not errors, "missing files in {}".format(host_folders[folder])

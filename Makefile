@@ -33,9 +33,13 @@ help: ## This nice help (thanks to https://marmelab.com/blog/2016/02/29/auto-doc
 
 .DEFAULT_GOAL := help
 
+tmp:
+	@mkdir ${CURDIR}/tmp && \
+	 mkdir ${CURDIR}/tmp/output && \
+	 mkdir ${CURDIR}/tmp/log
 
 .PHONY: build
-build: pull update_compose_labels update_run_script ## Builds all service images.
+build: pull update_compose_labels update_run_script tmp ## Builds all service images.
 	@${DOCKER_COMPOSE} -f docker-compose.yml build --parallel
 	@echo Built image ${DOCKER_REGISTRY}/simcore/services/comp/osparc-opencor:latest
 
@@ -126,4 +130,4 @@ clean:  ## Cleans all unversioned files in project
 
 .PHONY: toc
 toc: .venv ## Updates README.txt with a ToC of all services
-	@.venv/bin/python ${CURDIR}/scripts/auto-doc/create-toc.py
+	@.venv/bin/python ${CURDIR}/tools/auto-doc/create-toc.py

@@ -6,7 +6,7 @@ pyyaml
 
 
 # autodoc
--r scripts/auto-doc/requirements.txt
+-r tools/auto-doc/requirements.txt
 
 # tooling
 pylint

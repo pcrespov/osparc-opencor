@@ -6,4 +6,8 @@ set -e
 _json_input=$INPUT_FOLDER/input.json
 export STIMULATION_PERIOD=$(cat $_json_input | jq '.stimulation_period')
 export LOG_FILE=$LOG_FOLDER/log.dat
+echo "Executing osparc-opencore ..." >> $LOG_FILE
 bash execute
+echo "Post-executing osparc-opencore ..." >> $LOG_FILE
+bash post_execute
+echo "osparc-opencore completed" >> $LOG_FILE

@@ -55,8 +55,12 @@ def main(args = None) -> int:
                 input_script.append("export {}=$(cat $_json_input | jq '.{}')".format(str(input_key).upper(), input_key))
 
         input_script.extend([
-            "export LOG_FILE=$LOG_FOLDER/log.dat",
-            "bash execute"
+            'export LOG_FILE=$LOG_FOLDER/log.dat',
+            'echo "Executing osparc-opencore ..." >> $LOG_FILE',
+            'bash execute',
+            'echo "Post-executing osparc-opencore ..." >> $LOG_FILE',
+            'bash post_execute',
+            'echo "osparc-opencore completed" >> $LOG_FILE'
         ])
 
         # write shell script
