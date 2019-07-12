@@ -22,9 +22,14 @@ export VCS_REF:=$(shell git rev-parse --short HEAD)
 export VCS_STATUS_CLIENT:=$(if $(shell git status -s),'modified/untracked','clean')
 export BUILD_DATE:=$(shell date -u +"%Y-%m-%dT%H:%M:%SZ")
 
-ifndef DOCKER_REGISTRY
-export DOCKER_REGISTRY=itisfoundation
+export DOCKER_REGISTRY ?= itisfoundation
+ifeq (${DOCKER_REGISTRY}, itisfoundation)
+	export DOCKER_IMAGE_NAME = ${DOCKER_REGISTRY}/osparc-opencor
+else
+	export DOCKER_IMAGE_NAME = ${DOCKER_REGISTRY}/simcore/services/comp/osparc-opencor
 endif
+
+
 
 
 .PHONY: help
@@ -71,16 +76,16 @@ push:
 	${DOCKER} login ${DOCKER_REGISTRY};\
 	SERVICE_VERSION=$$(cat VERSION);\
 	${DOCKER} tag \
-		${DOCKER_REGISTRY}/simcore/services/comp/osparc-opencor:latest \
-		${DOCKER_REGISTRY}/simcore/services/comp/osparc-opencor:$$SERVICE_VERSION;\
+		${DOCKER_IMAGE_NAME}:latest \
+		${DOCKER_IMAGE_NAME}:$$SERVICE_VERSION;\
 	${DOCKER} push \
-		${DOCKER_REGISTRY}/simcore/services/comp/osparc-opencor:$$SERVICE_VERSION;\
+		${DOCKER_IMAGE_NAME}:$$SERVICE_VERSION;\
 	${DOCKER} push \
-		${DOCKER_REGISTRY}/simcore/services/comp/osparc-opencor:latest;
+		${DOCKER_IMAGE_NAME}:latest;
 
 pull: ## pull latest service version if available
 	${DOCKER} pull \
-		${DOCKER_REGISTRY}/simcore/services/comp/osparc-opencor:latest || true;
+		${DOCKER_IMAGE_NAME}:latest || true;
 
 
 .env: .env-devel
@@ -114,6 +119,7 @@ info: ## Displays some parameters of makefile environments
 	@echo '+ BUILD_DATE           : ${BUILD_DATE}'
 	@echo '+ OS_VERSION           : ${OS_VERSION}'
 	@echo '+ DOCKER_REGISTRY      : ${DOCKER_REGISTRY}'
+	@echo '+ DOCKER_IMAGE_NAME    : ${DOCKER_IMAGE_NAME}'
 
 
 .venv: .env ## Creates a python virtual environment with dev tools (pip, pylint, ...)
