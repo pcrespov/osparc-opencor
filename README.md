@@ -3,13 +3,17 @@
 Basic demo of a [hsorby/opencor-python] service for osparc 
 
 
+
 <!-- TOC_BEGIN -->
-<!-- Automaticaly produced by scripts/auto-doc/create-toc.py on 20190706 -->
+<!-- Automaticaly produced by scripts/auto-doc/create-toc.py on 2019-07-12T11:36 -->
 ## Available services [1]
-|           name            |             description             |      type       |  latest version  |                  identifier                  |
-|---------------------------|-------------------------------------|-----------------|------------------|----------------------------------------------|
-|  [osparc-opencor](./src)  |  OpenCOR service for osparc [Demo]  |  computational  |  0.2.2           |  simcore/services/comp/osparc-opencor:0.2.2  |
+|           name            |                  description                  |      type       |  latest version  |                  identifier                  |
+|---------------------------|-----------------------------------------------|-----------------|------------------|----------------------------------------------|
+|  [osparc-opencor](./src)  |  OpenCOR service for osparc [ISAN-2019 Demo]  |  computational  |  0.2.2           |  simcore/services/comp/osparc-opencor:0.2.2  |
+
+ Updated on 2019-07-12T11:36
 <!-- TOC_END -->
+
 
 
 
