@@ -31,7 +31,6 @@ endif
 
 
 
-
 .PHONY: help
 help: ## This nice help (thanks to https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html)
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
@@ -45,8 +44,8 @@ tmp:
 
 .PHONY: build
 build: pull update_compose_labels update_run_script tmp ## Builds all service images.
-	@${DOCKER_COMPOSE} -f docker-compose.yml build --parallel
-	@echo Built image ${DOCKER_REGISTRY}/simcore/services/comp/osparc-opencor:latest
+	@${DOCKER_COMPOSE} -f docker-compose.yml  build --no-cache --parallel
+	@echo Built image ${DOCKER_IMAGE_NAME}
 
 .PHONY: up down
 up: .env down ## starts services.
@@ -77,7 +76,7 @@ push:
 	SERVICE_VERSION=$$(cat VERSION);\
 	${DOCKER} tag \
 		${DOCKER_IMAGE_NAME}:latest \
-		${DOCKER_IMAGE_NAME}:$$SERVICE_VERSION;\
+		${DOCKER_IMAGE_NAME}:$$SERVICE_VERSION
 	${DOCKER} push \
 		${DOCKER_IMAGE_NAME}:$$SERVICE_VERSION;\
 	${DOCKER} push \

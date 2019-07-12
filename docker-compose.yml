@@ -34,8 +34,7 @@ services:
     - INPUT_FOLDER=/input
     - OUTPUT_FOLDER=/output
     - LOG_FOLDER=/log
-    #image: ${DOCKER_REGISTRY}/simcore/services/comp/osparc-opencor:latest
-    image: ${DOCKER_REGISTRY}/osparc-opencor:latest
+    image: ${DOCKER_IMAGE_NAME}:latest
     volumes:
     - ./validation/input:/input
     - ./tmp/output:/output

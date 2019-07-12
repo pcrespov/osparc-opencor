@@ -3,8 +3,6 @@
 Basic demo of a [hsorby/opencor-python] service for osparc 
 
 
-
-
 <!-- TOC_BEGIN -->
 <!-- Automaticaly produced by tools/auto-doc/create-toc.py on 2019-07-12T18:27 -->
 ## Available services [1]
