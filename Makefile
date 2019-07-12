@@ -130,4 +130,4 @@ clean:  ## Cleans all unversioned files in project
 
 .PHONY: toc
 toc: .venv ## Updates README.txt with a ToC of all services
-	@.venv/bin/python ${CURDIR}/scripts/auto-doc/create-toc.py
+	@.venv/bin/python ${CURDIR}/tools/auto-doc/create-toc.py
