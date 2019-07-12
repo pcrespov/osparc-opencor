@@ -74,18 +74,17 @@ push:
 	# push both latest and :$$SERVICE_VERSION tags
 	${DOCKER} login ${DOCKER_REGISTRY};\
 	SERVICE_VERSION=$$(cat VERSION);\
-	${DOCKER} tag \
-		${DOCKER_IMAGE_NAME}:latest \
-		${DOCKER_IMAGE_NAME}:$$SERVICE_VERSION
-	${DOCKER} push \
-		${DOCKER_IMAGE_NAME}:$$SERVICE_VERSION;\
-	${DOCKER} push \
-		${DOCKER_IMAGE_NAME}:latest;
+	${DOCKER} tag ${DOCKER_IMAGE_NAME}:latest ${DOCKER_IMAGE_NAME}:$$SERVICE_VERSION; \
+	${DOCKER} push ${DOCKER_IMAGE_NAME}:$$SERVICE_VERSION;\
+	${DOCKER} push ${DOCKER_IMAGE_NAME}:latest
 
 pull: ## pull latest service version if available
 	${DOCKER} pull \
 		${DOCKER_IMAGE_NAME}:latest || true;
 
+shell:
+	SERVICE_VERSION=$$(cat VERSION);\
+	${DOCKER} run -it --entrypoint /bin/bash ${DOCKER_IMAGE_NAME}:$$SERVICE_VERSION
 
 .env: .env-devel
 	# first check if file exists, copies it
