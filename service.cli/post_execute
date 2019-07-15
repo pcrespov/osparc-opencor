@@ -12,6 +12,6 @@ pushd $OUTPUT_FOLDER
 #
 
 echo "membrane-potential" > membrane-potential.csv
-cat output.json | jq -r '.membrane.v[]' >> membrane-potential.csv
+cat results.json | jq -r '.membrane.v[]' >> membrane-potential.csv
 
 popd

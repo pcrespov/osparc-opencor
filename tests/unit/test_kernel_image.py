@@ -24,7 +24,7 @@ def golden_reference(repo_dir):
     with open(repo_dir / "validation/input/input.json") as fh:
         inputs = json.load(fh)
     
-    with open(repo_dir / "validation/output/output.json") as fh:
+    with open(repo_dir / "validation/output/results.json") as fh:
         output = json.load(fh)
     
     return inputs, output
@@ -35,7 +35,7 @@ def golden_reference(repo_dir):
 @pytest.mark.parametrize("stimulation_mode,stimulation_level",
     list(itertools.product( (1,2), (0, 0.5, 1.0) ) )
 )
-def test_base_runs(base_image, stimulation_mode, stimulation_level):
+def test_kernel_runs(base_image, stimulation_mode, stimulation_level):
     """ Runs command documented in
          https://github.com/hsorby/docker_opencor_run_model
 

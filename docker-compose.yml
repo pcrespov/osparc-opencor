@@ -17,13 +17,13 @@ services:
           level (0-1) as a decimal number", "type": "number", "defaultValue": "0.5"}}}'
         io.simcore.key: '{"key": "simcore/services/comp/osparc-opencor"}'
         io.simcore.name: '{"name": "osparc-opencor"}'
-        io.simcore.outputs: '{"outputs": {"output_json": {"displayOrder": 1, "label":
+        io.simcore.outputs: '{"outputs": {"results_json": {"displayOrder": 1, "label":
           "Membrane Potential and Heart rate", "description": "Membrane potential
           (v) at each time step and the heart rate in beats per minute", "type": "data:application/json",
-          "fileToKeyMap": {"output.json": "output_json"}}, "membrane_potential_csv":
+          "fileToKeyMap": {"results.json": "results_json"}}, "membrane_potential_csv":
           {"displayOrder": 2, "label": "Membrane Potential (CSV-format)", "description":
           "Membrane potential (v) at each time step", "type": "data:application/csv",
-          "fileToKeyMap": {"membrain-potential.csv": "membrane_potential_csv"}}}}'
+          "fileToKeyMap": {"membrane-potential.csv": "membrane_potential_csv"}}}}'
         io.simcore.type: '{"type": "computational"}'
         io.simcore.version: '{"version": "0.3.0"}'
         org.label-schema.build-date: ${BUILD_DATE}
