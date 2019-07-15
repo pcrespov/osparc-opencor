@@ -1,12 +1,12 @@
 {
-    "outputs": {        
-        "membrane_potential_json": {
+    "outputs": {
+        "results_json": {
             "displayOrder": 1,
-            "label": "Membrane Potential",
-            "description": "Membrane potential (v) at each time step",
+            "label": "Membrane Potential and Heart rate",
+            "description": "Membrane potential (v) at each time step and the heart rate in beats per minute",
             "type": "data:application/json",
             "fileToKeyMap": {
-                "membrain-potential.json":"membrane_potential_json"
+                "results.json":"results_json"
             }
         },
         "membrane_potential_csv": {
@@ -15,7 +15,7 @@
             "description": "Membrane potential (v) at each time step",
             "type": "data:application/csv",
             "fileToKeyMap": {
-                "membrain-potential.csv":"membrane_potential_csv"
+                "membrane-potential.csv":"membrane_potential_csv"
             }
         }
     }

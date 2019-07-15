@@ -4,7 +4,8 @@
 #---------------------------------------------------------------
 set -e
 _json_input=$INPUT_FOLDER/input.json
-export STIMULATION_PERIOD=$(cat $_json_input | jq '.stimulation_period')
+export STIMULATION_MODE=$(cat $_json_input | jq '.stimulation_mode')
+export STIMULATION_LEVEL=$(cat $_json_input | jq '.stimulation_level')
 export LOG_FILE=$LOG_FOLDER/log.dat
 echo "Executing osparc-opencore ..." >> $LOG_FILE
 bash execute

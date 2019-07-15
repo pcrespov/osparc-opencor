@@ -8,7 +8,9 @@ import sys
 from pathlib import Path
 
 import pytest
-
+import docker
+import yaml
+import os
 
 @pytest.fixture(scope='session')
 def here() -> Path:
@@ -70,3 +72,26 @@ def git_root_dir(here: Path) -> Path:
     if root_dir.as_posix() == "/":
         return None
     return root_dir
+
+
+@pytest.fixture(scope='session')
+def docker_compose_dict(repo_dir):
+    with open(repo_dir / "docker-compose.yml") as fh:
+        content = yaml.safe_load(fh)
+
+    # TODO: replace all variables
+    return content
+
+@pytest.fixture
+def docker_client() -> docker.DockerClient:
+    return docker.from_env()
+
+@pytest.fixture
+def docker_image_key(docker_client: docker.DockerClient, docker_compose_dict) -> str:
+    # FIXME: needs to run from make and interpolate properly substitution syntax!!
+    image_key = docker_compose_dict['services']['osparc-opencor']['image'] # FIXME: need to interpolate
+    image_key = image_key.replace("$", "")
+    image_key = image_key.format(**os.environ)
+    print("Testing " + image_key)
+    docker_images = [image for image in docker_client.images.list() if any(image_key in tag for tag in image.tags)]
+    return docker_images[0].tags[0]

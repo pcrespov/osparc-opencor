@@ -14,19 +14,12 @@ from typing import Dict
 
 import docker
 import pytest
+import os
+
 
 _FOLDER_NAMES = ["input", "output", "log"]
 _CONTAINER_FOLDER = Path("/home/scu/data")
 
-@pytest.fixture
-def docker_client() -> docker.DockerClient:
-    return docker.from_env()
-
-@pytest.fixture
-def docker_image_key(docker_client: docker.DockerClient) -> str:
-    image_key = "simcore/services/comp/osparc-opencor:latest"
-    docker_images = [image for image in docker_client.images.list() if any(image_key in tag for tag in image.tags)]
-    return docker_images[0].tags[0]
 
 def _is_gitlab_executor() -> bool:
     return "GITLAB_CI" in os.environ
