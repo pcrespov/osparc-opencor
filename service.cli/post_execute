@@ -10,8 +10,8 @@ pushd $OUTPUT_FOLDER
 #        "v": [-47.78, -47.82, -47.85, ...]
 #    }
 #
-
-echo "membrane-potential" > membrane-potential.csv
-cat results.json | jq -r '.membrane.v[]' >> membrane-potential.csv
-
+echo "index,transmembrane-potential [mV]" > membrane-potential.csv
+VALUES="$(cat results.json | jq -r '.membrane.v[]')"
+ENUMERATE=$(seq $(echo "${VALUES}" | wc -l))
+paste -d",  "  <(echo "${ENUMERATE}") <(echo "${VALUES}") >> membrane-potential.csv
 popd

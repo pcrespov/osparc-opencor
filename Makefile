@@ -48,7 +48,7 @@ build: pull update_compose_labels update_run_script tmp ## Builds all service im
 	@echo Built image ${DOCKER_IMAGE_NAME}
 
 .PHONY: up down
-up: .env down ## starts services.
+up: .env down tmp## starts services.
 	@mkdir -p tmp/output
 	@mkdir -p tmp/log
 	@${DOCKER_COMPOSE} -f docker-compose.yml up
