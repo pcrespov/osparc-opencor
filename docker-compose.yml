@@ -10,18 +10,20 @@ services:
         io.simcore.contact: '{"contact": "pcrespov"}'
         io.simcore.description: '{"description": "OpenCOR service for osparc [ISAN-2019
           Demo]"}'
-        io.simcore.inputs: '{"inputs": {"stimulation_period": {"displayOrder": 1,
-          "label": "Stimulation Period", "description": "Stimulation period in milliseconds
-          as a decimal number", "type": "number", "defaultValue": "1000.0"}}}'
+        io.simcore.inputs: '{"inputs": {"stimulation_mode": {"displayOrder": 1, "label":
+          "Stimulation Mode", "description": "Stimulation mode as an integer number
+          (1:stellate; 2:vagal)", "type": "integer", "defaultValue": "1"}, "stimulation_level":
+          {"displayOrder": 2, "label": "Stimulation Level", "description": "Stimulation
+          level (0-1) as a decimal number", "type": "number", "defaultValue": "0.5"}}}'
         io.simcore.key: '{"key": "simcore/services/comp/osparc-opencor"}'
         io.simcore.name: '{"name": "osparc-opencor"}'
-        io.simcore.outputs: '{"outputs": {"membrane_potential_json": {"displayOrder":
-          1, "label": "Membrane Potential", "description": "Membrane potential (v)
-          at each time step", "type": "data:application/json", "fileToKeyMap": {"membrain-potential.json":
-          "membrane_potential_json"}}, "membrane_potential_csv": {"displayOrder":
-          2, "label": "Membrane Potential (CSV-format)", "description": "Membrane
-          potential (v) at each time step", "type": "data:application/csv", "fileToKeyMap":
-          {"membrain-potential.csv": "membrane_potential_csv"}}}}'
+        io.simcore.outputs: '{"outputs": {"output_json": {"displayOrder": 1, "label":
+          "Membrane Potential and Heart rate", "description": "Membrane potential
+          (v) at each time step and the heart rate in beats per minute", "type": "data:application/json",
+          "fileToKeyMap": {"output.json": "output_json"}}, "membrane_potential_csv":
+          {"displayOrder": 2, "label": "Membrane Potential (CSV-format)", "description":
+          "Membrane potential (v) at each time step", "type": "data:application/csv",
+          "fileToKeyMap": {"membrain-potential.csv": "membrane_potential_csv"}}}}'
         io.simcore.type: '{"type": "computational"}'
         io.simcore.version: '{"version": "0.3.0"}'
         org.label-schema.build-date: ${BUILD_DATE}

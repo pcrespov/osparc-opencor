@@ -1,11 +1,18 @@
 {
     "inputs": {
-        "stimulation_period": {
+        "stimulation_mode": {
             "displayOrder": 1,
-            "label": "Stimulation Period",
-            "description": "Stimulation period in milliseconds as a decimal number",
+            "label": "Stimulation Mode",
+            "description": "Stimulation mode as an integer number (1:stellate; 2:vagal)",
+            "type": "integer",
+            "defaultValue": "1"
+        },
+        "stimulation_level": {
+            "displayOrder": 2,
+            "label": "Stimulation Level",
+            "description": "Stimulation level (0-1) as a decimal number",
             "type": "number",
-            "defaultValue": "1000.0"
+            "defaultValue": "0.5"
         }
     }
 }

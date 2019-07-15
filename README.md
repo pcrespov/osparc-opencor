@@ -2,7 +2,9 @@
 
 Basic demo of a [hsorby/opencor-python] service for osparc 
 
-
+This repo contains the code that wraps  [hsorby/opencor-python] to run in [osparc-simcore]. 
+- Github repo of base image is [hsorby/docker_opencor_run_model]
+- Docker images in [hsorby/opencor-python]
 
 <!-- TOC_BEGIN -->
 <!-- Automaticaly produced by tools/auto-doc/create-toc.py on 2019-07-12T19:33 -->
@@ -40,5 +42,6 @@ toc                  Updates README.txt with a ToC of all services
 ```
 
 [hsorby/opencor-python]:https://hub.docker.com/r/hsorby/opencor-python/tags
+[hsorby/docker_opencor_run_model]:https://github.com/hsorby/docker_opencor_run_model
 
-
+[osparc-simcore]:https://github.com/ITISFoundation/osparc-simcore

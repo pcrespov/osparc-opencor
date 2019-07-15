@@ -1,3 +1,4 @@
 {
-    "stimulation_period": 1000.0
+    "stimulation_mode": 1,
+    "stimulation_level": 0.5
 }

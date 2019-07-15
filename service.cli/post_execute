@@ -4,7 +4,7 @@ set -euo pipefail
 echo "Converting json results to csv ..." >> $LOG_FILE
 pushd $OUTPUT_FOLDER
 # Assumes only membrane.v column
-echo "membrane.v" > membrain-potential.csv
-cat membrain-potential.json | jq -r '.membrane.v[]' >> membrain-potential.csv
+echo "membrane.v" > output.csv
+cat output.json | jq -r '.membrane.v[]' >> membrane-potential.csv
 
 popd
