@@ -4,10 +4,10 @@ services:
       context: ./
       dockerfile: src/Dockerfile
       labels:
-        io.simcore.authors: '{"authors": [{"name": "Hugh Sorby", "email": "hsorby",
+        io.simcore.authors: '{"authors": [{"name": "Hugh Sorby", "email": "support@osparc.io",
           "affiliation": "University of Auckland"}, {"name": "Pedro Crespo-Valero",
-          "email": "pcrespov", "affiliation": "IT''IS Foundation"}]}'
-        io.simcore.contact: '{"contact": "pcrespov"}'
+          "email": "support@osparc.io", "affiliation": "IT''IS Foundation"}]}'
+        io.simcore.contact: '{"contact": "support@osparc.io"}'
         io.simcore.description: '{"description": "OpenCOR service for osparc [ISAN-2019
           Demo]"}'
         io.simcore.inputs: '{"inputs": {"stimulation_mode": {"displayOrder": 1, "label":
