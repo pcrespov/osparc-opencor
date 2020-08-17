@@ -68,7 +68,7 @@ integration-test: build .venv  ## runs integration tests [w/ fail fast] (needs b
 test: unit-test integration-test ## run all tests
 
 .PHONY: push-release push
-push-release: check-release check-pull push # pushes services to the registry if service not available in registry. push overwrites.
+push-release: push # pushes services to the registry if service not available in registry. push overwrites.
 
 push: 
 	# push both latest and :$$SERVICE_VERSION tags

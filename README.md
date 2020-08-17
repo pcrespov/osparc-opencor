@@ -8,14 +8,15 @@ This repo contains the code that wraps  [hsorby/opencor-python] to run in [ospar
 
 
 <!-- TOC_BEGIN -->
-<!-- Automaticaly produced by tools/auto-doc/create-toc.py on 2019-07-15T09:59 -->
+<!-- Automaticaly produced by tools/auto-doc/create-toc.py on 2020-08-17T14:06 -->
 ## Available services [1]
 |           name            |                  description                  |      type       |  latest version  |                  identifier                  |
 |---------------------------|-----------------------------------------------|-----------------|------------------|----------------------------------------------|
-|  [osparc-opencor](./src)  |  OpenCOR service for osparc [ISAN-2019 Demo]  |  computational  |  0.3.0           |  simcore/services/comp/osparc-opencor:0.3.0  |
+|  [osparc-opencor](./src)  |  OpenCOR service for osparc [ISAN-2019 Demo]  |  computational  |  0.3.0           |  [simcore/services/comp/osparc-opencor:0.3.0](https://hub.docker.com/r/itisfoundation/osparc-opencor)  |
 
- Updated on 2019-07-15T09:59
+ Updated on 2020-08-17T14:06
 <!-- TOC_END -->
+
 
 
 
@@ -47,3 +48,4 @@ toc                  Updates README.txt with a ToC of all services
 [hsorby/docker_opencor_run_model]:https://github.com/hsorby/docker_opencor_run_model
 
 [osparc-simcore]:https://github.com/ITISFoundation/osparc-simcore
+
